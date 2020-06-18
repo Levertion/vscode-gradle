@@ -132,7 +132,7 @@ export function buildTaskName(definition: GradleTaskDefinition): string {
 }
 
 export function createTaskFromDefinition(
-  definition: Required<GradleTaskDefinition>,
+  definition: GradleTaskDefinition,
   rootProject: RootProject
 ): vscode.Task {
   const taskTerminalsStore = Extension.getInstance().getTaskTerminalsStore();
@@ -316,7 +316,7 @@ export function cloneTask(
   args: string,
   javaDebug = false
 ): vscode.Task {
-  const definition: Required<GradleTaskDefinition> = {
+  const definition: GradleTaskDefinition = {
     ...(task.definition as GradleTaskDefinition),
     args,
     javaDebug,

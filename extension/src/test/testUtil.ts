@@ -163,7 +163,7 @@ export function buildMockTaskDefinition(
   description = 'Description',
   args = '',
   project = 'dropwizard-project'
-): GradleTaskDefinition {
+): Required<GradleTaskDefinition> {
   return {
     type: 'gradle',
     id: workspaceFolder.uri.fsPath + script + project,
@@ -181,7 +181,7 @@ export function buildMockTaskDefinition(
 }
 
 export function buildMockGradleTask(
-  definition: GradleTaskDefinition
+  definition: Required<GradleTaskDefinition>
 ): GradleTask {
   const gradleTask = new GradleTask();
   gradleTask.setBuildfile(definition.buildFile);

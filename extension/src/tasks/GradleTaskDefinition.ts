@@ -3,13 +3,13 @@ import * as vscode from 'vscode';
 export interface GradleTaskDefinition extends vscode.TaskDefinition {
   id: string;
   script: string;
-  description: string;
+  description?: string;
   group: string;
   project: string;
-  rootProject: string;
-  buildFile: string;
+  // Only used internally for the tree data provider
+  // TODO: Refactor GradleTasksTreeDataProvider so that this is not required
+  buildFile?: string;
   projectFolder: string;
-  workspaceFolder: string;
   args: string;
-  javaDebug: boolean;
+  javaDebug?: boolean;
 }

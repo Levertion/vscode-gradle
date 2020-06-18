@@ -636,24 +636,19 @@
         "required": [
           "id",
           "script",
-          "description",
           "group",
           "project",
-          "buildFile",
-          "rootProject",
-          "projectFolder",
-          "workspaceFolder",
           "args",
           "javaDebug"
         ],
         "properties": {
           "id": {
             "type": "string",
-            "description": "Unique identifoier for this task"
+            "description": "Unique identifier for this task"
           },
           "script": {
             "type": "string",
-            "description": "The task script name"
+            "description": "The task script name, e.g. build"
           },
           "description": {
             "type": "string",
@@ -667,21 +662,9 @@
             "type": "string",
             "description": "The project this task belongs to"
           },
-          "buildFile": {
-            "type": "string",
-            "description": "The full path to task project build file"
-          },
-          "rootProject": {
-            "type": "string",
-            "description": "The root project this task belongs to"
-          },
           "projectFolder": {
             "type": "string",
-            "description": "The gradle project folder path"
-          },
-          "workspaceFolder": {
-            "type": "string",
-            "description": "The workspace folder path"
+            "description": "The gradle project folder path, relative to the workspace root"
           },
           "args": {
             "type": "string",
@@ -689,7 +672,9 @@
           },
           "javaDebug": {
             "type": "boolean",
-            "description": "Debug JavaExec task when executing"
+            "description": "Debug JavaExec task when executing. Defaults to false",
+            "$comment": "If the user is trying to set this, they probably want it to be true",
+            "default": true
           }
         }
       },

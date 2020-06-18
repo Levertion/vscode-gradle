@@ -38,7 +38,7 @@ function buildTaskTreeItem(
     gradleProjectTreeItem,
     task,
     task.name,
-    definition.description,
+    definition.description || task.name,
     gradleProjectJavaDebugMap.get(definition.projectFolder),
     taskTerminalsStore
   );

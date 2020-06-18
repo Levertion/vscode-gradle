@@ -151,7 +151,10 @@ export class GradleTasksTreeDataProvider
             getConfigJavaDebug(workspaceFolder)
           );
         }
-
+        if (!definition.buildFile) {
+          throw new Error('Unexpected: definition.buildFile not defined');
+        }
+        // These tasks are acquired from loadTasks, and so do have buildFile defined
         let projectTreeItem = projectTreeItemMap.get(definition.buildFile);
         if (!projectTreeItem) {
           projectTreeItem = new ProjectTreeItem(

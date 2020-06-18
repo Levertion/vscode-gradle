@@ -6,6 +6,7 @@ import { createTaskFromDefinition, loadTasksForProjectRoots } from './taskUtil';
 import { TaskId } from '../stores/types';
 import { RootProjectsStore } from '../stores';
 import { RootProject } from '../rootProject/RootProject';
+import { resolve } from 'path';
 
 export class GradleTaskProvider
   implements vscode.TaskProvider, vscode.Disposable {
@@ -41,20 +42,28 @@ export class GradleTaskProvider
     _task: vscode.Task
   ): Promise<vscode.Task | undefined> {
     const { definition } = _task;
+    const workspaceFolder = _task.scope;
     const gradleTaskDefinition = definition as GradleTaskDefinition;
-    const workspaceFolder = vscode.workspace.getWorkspaceFolder(
-      vscode.Uri.file(gradleTaskDefinition.workspaceFolder)
-    );
-    if (!workspaceFolder) {
+    if (
+      workspaceFolder === undefined ||
+      workspaceFolder === vscode.TaskScope.Global ||
+      workspaceFolder === vscode.TaskScope.Workspace
+    ) {
       logger.error(
         'Unable to provide Gradle task. Invalid workspace folder: ',
-        gradleTaskDefinition.workspaceFolder
+        JSON.stringify(workspaceFolder)
       );
+      // scope is required to be a WorkspaceFolder for resolveTask
       return undefined;
     }
     const rootProject = new RootProject(
       workspaceFolder,
-      vscode.Uri.file(gradleTaskDefinition.projectFolder)
+      workspaceFolder.uri.with({
+        path: resolve(
+          workspaceFolder.uri.path,
+          gradleTaskDefinition.projectFolder || ''
+        ),
+      })
     );
     return createTaskFromDefinition(gradleTaskDefinition, rootProject);
   }
